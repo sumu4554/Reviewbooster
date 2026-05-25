@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light">
+  <title>Share Your Experience | ReviewBoost</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/business-review.css">
+</head>
+<body class="business-review-page">
+  <div id="page-loader" class="br-loader">
+    <div class="br-loader-spinner"></div>
+    <p>Loading...</p>
+  </div>
+
+  <div id="page-error" class="br-error" hidden>
+    <h1>Business not found</h1>
+    <p>This review page doesn't exist or is no longer active.</p>
+    <a href="/" class="btn btn-primary">Go to ReviewBoost</a>
+  </div>
+
+  <div id="page-content" hidden>
+    <header class="br-header">
+      <a href="/" class="br-brand">
+        <span class="br-brand-icon">★</span>
+        ReviewBoost
+      </a>
+    </header>
+
+    <main class="br-main">
+      <div class="br-card">
+        <div class="br-business-header">
+          <div class="br-logo-wrap" id="business-logo-wrap">
+            <img id="business-logo" class="br-logo" alt="" hidden>
+            <div id="business-logo-fallback" class="br-logo-fallback">B</div>
+          </div>
+          <div>
+            <p class="br-eyebrow">Share your experience</p>
+            <h1 id="business-title">Business Name</h1>
+            <p class="br-industry" id="business-industry"></p>
+          </div>
+        </div>
+
+        <form id="review-form" class="br-form">
+          <div class="form-group">
+            <label>Your rating *</label>
+            <div class="star-rating-input" id="star-rating" role="radiogroup" aria-label="Rating">
+              <button type="button" class="star-btn" data-value="1" aria-label="1 star">★</button>
+              <button type="button" class="star-btn" data-value="2" aria-label="2 stars">★</button>
+              <button type="button" class="star-btn" data-value="3" aria-label="3 stars">★</button>
+              <button type="button" class="star-btn" data-value="4" aria-label="4 stars">★</button>
+              <button type="button" class="star-btn" data-value="5" aria-label="5 stars">★</button>
+            </div>
+            <input type="hidden" id="review-rating" name="rating" value="5" required>
+            <p class="star-rating-label" id="star-rating-label">Excellent — 5 stars</p>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="review-name">Your name *</label>
+              <input type="text" id="review-name" class="form-input" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+              <label for="review-email">Email (optional)</label>
+              <input type="email" id="review-email" class="form-input" placeholder="you@email.com">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="review-content">Your feedback *</label>
+            <textarea id="review-content" class="form-textarea" rows="5" placeholder="Tell us about your visit..." required minlength="5"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg br-submit">Submit Feedback</button>
+          <div id="form-message" class="form-message"></div>
+        </form>
+
+        <div id="success-positive" class="br-success" hidden>
+          <div class="br-success-icon positive">★</div>
+          <h2>Thank you!</h2>
+          <p id="success-positive-text">We appreciate your feedback. Please also review us on Google — it helps others find us.</p>
+          <a id="google-review-btn" href="#" target="_blank" rel="noopener" class="btn btn-primary btn-lg">Review on Google</a>
+          <p class="br-success-note">You'll be redirected to Google in a moment...</p>
+        </div>
+
+        <div id="success-negative" class="br-success" hidden>
+          <div class="br-success-icon negative">!</div>
+          <h2>We're sorry</h2>
+          <p id="success-negative-text">Sorry for your experience. We value your feedback and our team will reach out to make things right.</p>
+        </div>
+      </div>
+
+      <p class="br-powered">Powered by <a href="/">ReviewBoost</a> · Google Review Management</p>
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/business-review.js"></script>
+</body>
+</html>

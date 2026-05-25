@@ -1,0 +1,30 @@
+{
+  "name": "reviewboost",
+  "version": "1.0.0",
+  "description": "Google Reviews & Online Reputation Management - ReviewBoost",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "init-db": "node scripts/init-db.js",
+    "reset-admin": "node scripts/reset-admin.js",
+    "migrate-reviews": "node scripts/migrate-review-posts.js",
+    "migrate-slugs": "node scripts/migrate-slugs.js",
+    "seed-clients": "node scripts/seed-clients.js"
+  },
+  "keywords": [
+    "reviews",
+    "reputation",
+    "google-reviews"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.11.0",
+    "qrcode": "^1.5.4"
+  }
+}

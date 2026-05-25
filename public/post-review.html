@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Post your review for a local business on ReviewBoost. Share your experience and help others discover great services.">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light">
+  <title>Post a Review | ReviewBoost</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/hero-agency.css">
+</head>
+<body>
+  <div id="bg-placeholder"></div>
+  <div id="navbar-placeholder"></div>
+
+  <main class="site-main">
+    <section class="page-hero">
+      <div class="container">
+        <span class="section-label reveal">Post Review</span>
+        <h1 class="reveal">Share Your <span class="gradient-text">Experience</span></h1>
+        <p class="reveal">Post your honest review here. After approval, it appears on our website. Happy customers can also leave a review on Google.</p>
+      </div>
+    </section>
+
+    <section class="section section-alt" style="padding-top:0">
+      <div class="container">
+        <div class="post-review-layout reveal">
+          <div class="glass-card post-review-form-card">
+            <div class="post-review-form-header">
+              <div class="post-review-form-icon">★</div>
+              <div>
+                <h2>Write Your Review</h2>
+                <p id="review-business-label">Select a business and share your feedback</p>
+              </div>
+            </div>
+
+            <form id="post-review-form">
+              <div class="form-group">
+                <label for="review-client">Business *</label>
+                <select id="review-client" class="form-select" required>
+                  <option value="">— Select business —</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Your Rating *</label>
+                <div class="star-rating-input" id="star-rating" role="radiogroup" aria-label="Rating">
+                  <button type="button" class="star-btn" data-value="1" aria-label="1 star">★</button>
+                  <button type="button" class="star-btn" data-value="2" aria-label="2 stars">★</button>
+                  <button type="button" class="star-btn" data-value="3" aria-label="3 stars">★</button>
+                  <button type="button" class="star-btn" data-value="4" aria-label="4 stars">★</button>
+                  <button type="button" class="star-btn" data-value="5" aria-label="5 stars">★</button>
+                </div>
+                <input type="hidden" id="review-rating" name="rating" value="5" required>
+                <p class="star-rating-label" id="star-rating-label">Excellent — 5 stars</p>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="review-name">Your Name *</label>
+                  <input type="text" id="review-name" class="form-input" placeholder="Your full name" required>
+                </div>
+                <div class="form-group">
+                  <label for="review-email">Email (optional)</label>
+                  <input type="email" id="review-email" class="form-input" placeholder="you@email.com">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="review-content">Your Review *</label>
+                <textarea id="review-content" class="form-textarea" rows="5" placeholder="Tell others about your experience with this business..." required minlength="10"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-lg" style="width:100%">Submit Review</button>
+              <div id="post-review-message" class="form-message"></div>
+            </form>
+
+            <div id="post-review-success" class="post-review-success" hidden>
+              <div class="post-review-success-icon">✓</div>
+              <h3>Review Submitted!</h3>
+              <p id="success-text">Thank you. Your review will appear on ReviewBoost after admin approval.</p>
+              <div id="google-review-cta" class="google-review-cta" hidden>
+                <p>Love this business? Also post on Google to help them rank higher locally.</p>
+                <a id="google-review-link" href="#" target="_blank" rel="noopener" class="btn btn-outline-dark">Post on Google</a>
+              </div>
+              <button type="button" class="btn btn-ghost" id="post-another-btn">Post Another Review</button>
+            </div>
+          </div>
+
+          <aside class="post-review-sidebar">
+            <div class="glass-card">
+              <h3>Recently Published</h3>
+              <p class="text-muted" style="font-size:0.875rem;margin-bottom:1.25rem">Approved reviews from customers like you.</p>
+              <div id="published-reviews-list" class="published-reviews-list">
+                <p class="text-muted" style="font-size:0.875rem">Loading reviews...</p>
+              </div>
+            </div>
+
+            <div class="glass-card post-review-note">
+              <h4>How it works</h4>
+              <ul>
+                <li>Choose the business you visited</li>
+                <li>Rate and write your honest review</li>
+                <li>We approve genuine reviews within 24 hours</li>
+                <li>Optionally post the same feedback on Google</li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <div id="whatsapp-placeholder"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/animations.js"></script>
+  <script src="/js/post-review.js"></script>
+</body>
+</html>

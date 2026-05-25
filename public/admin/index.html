@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f1f5f9">
+  <meta name="color-scheme" content="light">
+  <title>Admin Dashboard | ReviewBoost</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-page">
+  <!-- Login Screen -->
+  <div id="login-screen" class="login-screen">
+    <div class="glass-card login-card">
+      <div style="text-align:center;margin-bottom:1.5rem">
+        <div class="logo-icon" style="margin:0 auto 1rem;width:48px;height:48px;font-size:1.25rem">★</div>
+      </div>
+      <h2>Admin Login</h2>
+      <p class="subtitle">Sign in to manage ReviewBoost</p>
+      <p class="login-hint">Use credentials from <code>.env</code> — default: admin@reviewboost.com / ReviewBoost@2026!</p>
+      <div id="login-error" class="login-error"></div>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" class="form-input" placeholder="admin@reviewboost.com" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" class="form-input" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="admin-body" style="display:none">
+    <div class="admin-sidebar-backdrop" id="sidebar-backdrop"></div>
+    <aside class="admin-sidebar" id="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <a href="/" class="navbar-logo">
+          <div class="logo-icon">★</div>
+          ReviewBoost
+        </a>
+      </div>
+      <nav class="admin-sidebar-nav">
+        <div class="admin-nav-label">Main Menu</div>
+        <button class="admin-nav-item active" data-panel="overview">
+          <span class="admin-nav-icon">📊</span> Overview
+        </button>
+        <button class="admin-nav-item" data-panel="clients">
+          <span class="admin-nav-icon">👥</span> Clients
+        </button>
+        <button class="admin-nav-item" data-panel="reviews">
+          <span class="admin-nav-icon">⭐</span> Campaigns
+        </button>
+        <button class="admin-nav-item" data-panel="posted-reviews">
+          <span class="admin-nav-icon">📝</span> Posted Reviews
+        </button>
+        <div class="admin-nav-label" style="margin-top:0.75rem">Content</div>
+        <button class="admin-nav-item" data-panel="testimonials">
+          <span class="admin-nav-icon">💬</span> Testimonials
+        </button>
+        <button class="admin-nav-item" data-panel="pricing">
+          <span class="admin-nav-icon">💰</span> Pricing
+        </button>
+        <button class="admin-nav-item" data-panel="messages">
+          <span class="admin-nav-icon">📩</span> Messages
+        </button>
+      </nav>
+      <div class="admin-sidebar-footer">
+        <button id="logout-btn" class="admin-nav-item" style="color:#f87171">
+          <span class="admin-nav-icon">🚪</span> Logout
+        </button>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-header">
+        <div style="display:flex;align-items:center;gap:1rem">
+          <button class="admin-mobile-toggle" id="sidebar-toggle">☰</button>
+          <h1 id="panel-title">Dashboard Overview</h1>
+        </div>
+        <span id="admin-name" class="admin-user-pill">
+          <span class="admin-user-avatar" id="admin-avatar">A</span>
+          <span id="admin-name-text">Admin</span>
+        </span>
+      </header>
+
+      <div class="admin-content">
+        <!-- Overview Panel -->
+        <div class="admin-panel active" id="panel-overview">
+          <div class="dashboard-welcome">
+            <h2>Welcome back 👋</h2>
+            <p>Here's what's happening with ReviewBoost today.</p>
+          </div>
+          <div class="dashboard-stats" id="dashboard-stats">
+            <div class="glass-card dashboard-stat-card">
+              <div class="dashboard-stat-icon blue">👥</div>
+              <div class="dashboard-stat-body">
+                <div class="stat-value" id="stat-clients">—</div>
+                <div class="stat-label">Total Clients</div>
+              </div>
+            </div>
+            <div class="glass-card dashboard-stat-card">
+              <div class="dashboard-stat-icon cyan">⭐</div>
+              <div class="dashboard-stat-body">
+                <div class="stat-value" id="stat-reviews">—</div>
+                <div class="stat-label">Reviews Tracked</div>
+              </div>
+            </div>
+            <div class="glass-card dashboard-stat-card">
+              <div class="dashboard-stat-icon green">📈</div>
+              <div class="dashboard-stat-body">
+                <div class="stat-value" id="stat-campaigns">—</div>
+                <div class="stat-label">Active Campaigns</div>
+              </div>
+            </div>
+            <div class="glass-card dashboard-stat-card">
+              <div class="dashboard-stat-icon amber">📩</div>
+              <div class="dashboard-stat-body">
+                <div class="stat-value" id="stat-messages">—</div>
+                <div class="stat-label">Unread Messages</div>
+              </div>
+            </div>
+          </div>
+          <div class="dashboard-grid">
+            <div class="glass-card">
+              <h3 class="dashboard-card-title">Recent Clients</h3>
+              <div class="admin-table-wrap">
+                <table class="admin-table" id="recent-clients-table">
+                  <thead><tr><th>Business</th><th>Contact</th><th>Status</th></tr></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="glass-card">
+              <h3 class="dashboard-card-title">Recent Messages</h3>
+              <div class="admin-table-wrap">
+                <table class="admin-table" id="recent-messages-table">
+                  <thead><tr><th>Name</th><th>Email</th><th>Date</th></tr></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Clients Panel -->
+        <div class="admin-panel" id="panel-clients">
+          <div class="panel-header">
+            <h2>Manage Clients</h2>
+            <button class="btn btn-primary btn-sm" onclick="openClientModal()">+ Add Client</button>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table" id="clients-table">
+              <thead>
+                <tr>
+                  <th>Business</th><th>Slug / Page</th><th>Contact</th><th>Status</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Reviews Panel -->
+        <div class="admin-panel" id="panel-reviews">
+          <div class="panel-header">
+            <h2>Review Campaigns</h2>
+            <button class="btn btn-primary btn-sm" onclick="openReviewModal()">+ Add Campaign</button>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table" id="reviews-table">
+              <thead>
+                <tr>
+                  <th>Campaign</th><th>Client</th><th>Platform</th><th>Progress</th><th>Status</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Posted Reviews Panel -->
+        <div class="admin-panel" id="panel-posted-reviews">
+          <div class="panel-header">
+            <h2>Customer Feedback</h2>
+          </div>
+          <p class="panel-desc">Private feedback (≤3 stars) and positive reviews redirected to Google. Print QR codes from Clients panel.</p>
+          <div class="admin-table-wrap">
+            <table class="admin-table" id="posted-reviews-table">
+              <thead>
+                <tr>
+                  <th>Name</th><th>Business</th><th>Rating</th><th>Feedback</th><th>Type</th><th>Date</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Testimonials Panel -->
+        <div class="admin-panel" id="panel-testimonials">
+          <div class="panel-header">
+            <h2>Testimonials</h2>
+            <button class="btn btn-primary btn-sm" onclick="openTestimonialModal()">+ Add Testimonial</button>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table" id="testimonials-table">
+              <thead>
+                <tr>
+                  <th>Client</th><th>Business</th><th>Rating</th><th>Featured</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Pricing Panel -->
+        <div class="admin-panel" id="panel-pricing">
+          <div class="panel-header">
+            <h2>Pricing Plans</h2>
+            <button class="btn btn-primary btn-sm" onclick="openPricingModal()">+ Add Plan</button>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table" id="pricing-table">
+              <thead>
+                <tr>
+                  <th>Name</th><th>Price</th><th>Period</th><th>Popular</th><th>Active</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Messages Panel -->
+        <div class="admin-panel" id="panel-messages">
+          <div class="panel-header">
+            <h2>Contact Messages</h2>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table" id="messages-table">
+              <thead>
+                <tr>
+                  <th>Name</th><th>Email</th><th>Business</th><th>Message</th><th>Date</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Client Modal -->
+  <div class="modal-overlay" id="client-modal">
+    <div class="glass-card modal">
+      <div class="modal-header">
+        <h3 id="client-modal-title">Add Client</h3>
+        <button class="modal-close" onclick="closeModal('client-modal')">&times;</button>
+      </div>
+      <form id="client-form">
+        <input type="hidden" id="client-id">
+        <div class="form-group">
+          <label>Business Name *</label>
+          <input type="text" id="client-business" class="form-input" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Contact Name *</label>
+            <input type="text" id="client-contact" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label>Email *</label>
+            <input type="email" id="client-email" class="form-input" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" id="client-phone" class="form-input">
+          </div>
+          <div class="form-group">
+            <label>Industry</label>
+            <input type="text" id="client-industry" class="form-input">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Google Review URL *</label>
+          <input type="url" id="client-gbp" class="form-input" placeholder="https://g.page/r/.../review">
+          <small class="field-hint">Used to redirect happy customers (4–5 stars) to Google</small>
+        </div>
+        <div class="form-group">
+          <label>Logo URL</label>
+          <input type="url" id="client-logo" class="form-input" placeholder="https://example.com/logo.png">
+        </div>
+        <div class="form-group" id="client-slug-preview" style="display:none">
+          <label>Review Page URL</label>
+          <input type="text" id="client-slug-url" class="form-input" readonly>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="client-status" class="form-select">
+            <option value="active">Active</option>
+            <option value="paused">Paused</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea id="client-notes" class="form-textarea" rows="3"></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" onclick="closeModal('client-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Client</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Review Modal -->
+  <div class="modal-overlay" id="review-modal">
+    <div class="glass-card modal">
+      <div class="modal-header">
+        <h3 id="review-modal-title">Add Campaign</h3>
+        <button class="modal-close" onclick="closeModal('review-modal')">&times;</button>
+      </div>
+      <form id="review-form">
+        <input type="hidden" id="review-id">
+        <div class="form-group">
+          <label>Campaign Name *</label>
+          <input type="text" id="review-campaign" class="form-input" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Client</label>
+            <select id="review-client" class="form-select"><option value="">— Select Client —</option></select>
+          </div>
+          <div class="form-group">
+            <label>Platform</label>
+            <select id="review-platform" class="form-select">
+              <option value="google">Google</option>
+              <option value="facebook">Facebook</option>
+              <option value="yelp">Yelp</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Target Count</label>
+            <input type="number" id="review-target" class="form-input" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label>Current Count</label>
+            <input type="number" id="review-current" class="form-input" min="0" value="0">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Start Date</label>
+            <input type="date" id="review-start" class="form-input">
+          </div>
+          <div class="form-group">
+            <label>End Date</label>
+            <input type="date" id="review-end" class="form-input">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="review-status" class="form-select">
+            <option value="planning">Planning</option>
+            <option value="active">Active</option>
+            <option value="paused">Paused</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea id="review-notes" class="form-textarea" rows="3"></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" onclick="closeModal('review-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Campaign</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Testimonial Modal -->
+  <div class="modal-overlay" id="testimonial-modal">
+    <div class="glass-card modal">
+      <div class="modal-header">
+        <h3 id="testimonial-modal-title">Add Testimonial</h3>
+        <button class="modal-close" onclick="closeModal('testimonial-modal')">&times;</button>
+      </div>
+      <form id="testimonial-form">
+        <input type="hidden" id="testimonial-id">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Client Name *</label>
+            <input type="text" id="testimonial-client" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label>Business Name *</label>
+            <input type="text" id="testimonial-business" class="form-input" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Content *</label>
+          <textarea id="testimonial-content" class="form-textarea" rows="4" required></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Rating</label>
+            <input type="number" id="testimonial-rating" class="form-input" min="1" max="5" step="0.1" value="5">
+          </div>
+          <div class="form-group">
+            <label>Avatar Initials</label>
+            <input type="text" id="testimonial-initials" class="form-input" maxlength="5">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Display Order</label>
+            <input type="number" id="testimonial-order" class="form-input" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label>Featured</label>
+            <select id="testimonial-featured" class="form-select">
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" onclick="closeModal('testimonial-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Testimonial</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Pricing Modal -->
+  <div class="modal-overlay" id="pricing-modal">
+    <div class="glass-card modal">
+      <div class="modal-header">
+        <h3 id="pricing-modal-title">Add Pricing Plan</h3>
+        <button class="modal-close" onclick="closeModal('pricing-modal')">&times;</button>
+      </div>
+      <form id="pricing-form">
+        <input type="hidden" id="pricing-id">
+        <div class="form-group">
+          <label>Plan Name *</label>
+          <input type="text" id="pricing-name" class="form-input" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Price (INR ₹) *</label>
+            <input type="number" id="pricing-price" class="form-input" min="0" step="0.01" required>
+          </div>
+          <div class="form-group">
+            <label>Billing Period</label>
+            <select id="pricing-period" class="form-select">
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+              <option value="one-time">One-time</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="pricing-desc" class="form-textarea" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Features (one per line)</label>
+          <textarea id="pricing-features" class="form-textarea" rows="5" placeholder="Feature 1&#10;Feature 2&#10;Feature 3"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Popular Plan</label>
+            <select id="pricing-popular" class="form-select">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Active</label>
+            <select id="pricing-active" class="form-select">
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Display Order</label>
+          <input type="number" id="pricing-order" class="form-input" min="0" value="0">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" onclick="closeModal('pricing-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Plan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/currency.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>
